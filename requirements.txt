@@ -1,0 +1,2 @@
+flet~=0.27.4 
+#file che elenca tutte le librerie che noi usiamo, e il numero della versione che usiamo, serve per salvare tutte le librerie importate
