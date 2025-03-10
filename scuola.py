@@ -11,7 +11,7 @@ class Person:
         self.incantesimo = incantesimo
 
     def __str__(self):
-        return f"Person: {self.nome} {self.cognome} \n"
+        return f"Person: {self.nome} {self.cognome}\n"
 
     @property  #li usaimo raramente perchè essendo variabili pubbliche accediamo direttamente
     def cognome(self):
@@ -30,9 +30,11 @@ class Student(Person):  #ereditarietà, quindi prende tutti i metodi di Person
         # se passo *args passa un numero arbitrario di argomenti e li inserisce in una lista
         super().__init__(nome, cognome, eta, capelli, occhi, casa, incantesimo)
         self.animale = animale
+    def copy(self):
+        return Student(self.nome, self.cognome, self.eta, self.capelli, self.occhi, self.casa, self.animale, self.incantesimo)
 
     def __str__(self):
-        return f"Student: {self.nome} - {self.cognome} - {self.casa} \n "
+        return f"Student: {self.nome} - {self.cognome} - {self.casa}\n "
 
     def __repr__(self):
         return f"Student(nome, cognome, eta, capelli, occhi, casa, animale)"
@@ -48,7 +50,7 @@ class Teacher(Person):
         self.materia = materia
 
     def __str__(self):
-        return f"Teacher: {self.nome} - {self.cognome} - {self.materia} \n "
+        return f"Teacher: {self.nome} - {self.cognome} - {self.materia}\n "
 
 
 class Casa:
@@ -63,7 +65,7 @@ class Casa:
     def __str__(self):
         if len(self.studenti) == 0:
             return f"La casa {self.nome} + è vuota."
-        mystr = f"\n Lista degli studenti iscritti alla casa {self.nome} \n"
+        mystr = f"\n Lista degli studenti iscritti alla casa {self.nome}\n"
         for s in self.studenti:
             mystr += str(s)
         return mystr
