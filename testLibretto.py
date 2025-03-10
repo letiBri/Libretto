@@ -44,3 +44,20 @@ print(myLib)
 nuovoLib = myLib.creaMigliorato()
 print("Nuovo Libretto migliorato")
 print(nuovoLib) #in questo modo i due libretti sono indipendneti e stampano il voto migliorato
+
+print("-----------------------------------------------------------------------")
+ordinato = myLib.creaLibOrdinatoPerMateria()
+print("Libretto ordinato per materia")
+print(ordinato)
+
+print((30, True) > (30, False)) #python sa già ordinare le tuple
+
+print("-----------------------------------------------------------------------")
+ordinato2 = myLib.creaLibOrdinatoPerVoto()
+print("Libretto ordinato per voto")
+print(ordinato2)
+
+print("-----------------------------------------------------------------------")
+print("Libretto a cui ho eliminato i voti inferiori a 24")
+ordinato2.cancellaInferiori(24)
+print(ordinato2)

@@ -1,3 +1,4 @@
+import operator
 from dataclasses import dataclass
 import flet
 '''
@@ -22,7 +23,8 @@ class Voto:
             return f"In {self.materia} hai preso {self.punteggio} il {self.data}"
 '''
 
-@dataclass #decoratore è una funzione che prende come argomento una classe, e restituisce un'altra classe
+@dataclass(order=True) #decoratore è una funzione che prende come argomento una classe, e restituisce un'altra classe
+#order=True userebbe i metodi basi lt, eq definiti da python per l'ordinamneto, noi non vogliamo questo
 class Voto:
     materia: str #c'è il tipo, in fase di complilazione queste definizioni vengono ignorate, vengono messe solo per l'editor
     punteggio: int
@@ -38,6 +40,8 @@ class Voto:
         #return(self.punteggio == other.punteggio and self.materia == other.materia and self.lode == other.lode)
     def copy(self): #crea una nuova instanza che ha gli stessi parametri dell'instanza di partenza
         return Voto(self.materia, self.punteggio, self.data, self.lode)
+    def __hash__(self):
+        return hash((self.materia, self.punteggio, self.lode)) #
 
 
 class Libretto:
@@ -56,6 +60,7 @@ class Libretto:
         return mystr
     def __len__(self):
         return len(self.voti) #quanti elementi ha la lista voti, specializzo un comportamento
+
     def calcolaMedia(self):
         """
         restituisce la media dei voti attualmente presenti nel libretto
@@ -69,6 +74,7 @@ class Libretto:
             raise ValueError("Attenzione, lista esami vuota")
         v = [v.punteggio for v in self.voti] #sintassi semplificata per ciclare nei voti e inserire nella lista i punteggi di ogni oggetto voto
         return sum(v) / len(v)
+
     def getVotiByPunti(self, punti, lode):
         """
         restituisce una lista di esami con punteggio uguale a punti (e lode se assegnata)
@@ -81,6 +87,7 @@ class Libretto:
             if v.punteggio == punti and v.lode == lode: #se i nostri oggetti sono delle dataclass non serve implementare metodo __eq__
                 votiFiltrati.append(v)
         return votiFiltrati
+
     def getVotoByName(self, nome):
         """
         restituisce un oggetto Voto il cui campo materia è uguale a nome
@@ -90,6 +97,7 @@ class Libretto:
         for v in self.voti:
             if v.materia == nome:
                 return v
+
     def hasVoto(self, voto): #il nome del metodo mi indica già cosa restituisce
         """
         questo metodo verifica se il libretto contiene già il voto "voto". Due voti sono considerati uguali per questo metodo se
@@ -101,6 +109,7 @@ class Libretto:
             if v.materia == voto.materia and v.punteggio == voto.punteggio and v.lode == voto.lode:
                 return True
         return False
+
     def hasConflitto(self, voto):
         """
         Questo metodo controlla che il voto "voto" non rappresneta un conflitto con i voti già presenti nel libretto.
@@ -112,6 +121,7 @@ class Libretto:
             if v.materia == voto.materia and not (v.punteggio == voto.punteggio and v.lode == voto.lode):
                 return True
         return False
+
     def copy(self):
         """
         crea una nuova copia del libretto
@@ -121,6 +131,7 @@ class Libretto:
         for v in self.voti:
             nuovo.append(v.copy()) #aggiunge al nuovo una copia dei voti
         return nuovo
+
     def creaMigliorato(self):
         """
         Crea un nuovo oggetto Libretto in cui i voti sono migliorati secondo la seguente logica:
@@ -142,6 +153,63 @@ class Libretto:
             elif v.punteggio == 29:
                 v.punteggio = 30
         return nuovo
+
+    def sortByMateria(self):
+        #self.voti.sort(key=estraiMateria)
+        self.voti.sort(key=operator.attrgetter("materia")) #voto.materia
+        #opzione 1:creo due metodi di stampa che prima ordinano e poi stampano --> non ci piace perchè mischiamo funzioni diverse
+        #opzione 2: creo due metodi che ordinano la lista di self e poi un unico metodo di stampa --> problema: vado a modificare la lista attuale
+        #opzione 3: credo due metodi che si fanno una copia (deep) autonoma della lista, la ordinano e la restituiscono, poi un altro metodo si occupa di stampare le nuove liste
+        #opzione 4: creo una shallow copy (copio solo la lista e gli oggetti dentro rimangono gli stessi di prima) di self.voti e ordino quella
+        #opzione 3 è quella più versatile, ma implementare la 3 implica implementare anche la 2
+
+    def creaLibOrdinatoPerMateria(self):
+        """
+        crea un nuovo oggetto Libretto e lo ordina per materia
+        :return: nuova instanza dell'oggetto Libretto
+        """
+        nuovo = self.copy()
+        nuovo.sortByMateria()
+        return nuovo
+
+    def creaLibOrdinatoPerVoto(self):
+        """
+        crea un nuovo oggetto Libretto e lo ordina per voto
+        :return: nuova instanza dell'oggetto Libretto
+        """
+        nuovo = self.copy()
+        nuovo.voti.sort(key=lambda v: (v.punteggio, v.lode), reverse=True)
+        return nuovo
+
+    def cancellaInferiori(self, punteggio):
+        """
+        questo metodo agisce sul libretto corrente, eliminando tutti i voti inferiori al parametro punteggio
+        :param punteggio: intero indicante il valore minimo
+        :return:
+        """
+        #modo 1
+        #for i in range(len(self.voti)): #sto modificando una lista che sto scorrendo quindi quando mi sposto di posizione perdo degli elementi che scalano di posizione
+            #if self.voti[i].punteggio < punteggio:
+                #self.voti.pop(i)
+        #modo 2 #anche in questo caso perdo degli elementi se non scorro dal fondo
+        #for v in sel.voti:
+            #if v.punteggio < punteggio:
+                #self.voti.remove(v)
+        #modo 3
+        nuovo = []
+        for v in self.voti:
+            if v.punteggio >= punteggio:
+                nuovo.append(v)
+        self.voti = nuovo
+        #return [v for v in self.voti if v.punteggio >= punteggio] #per compattare in una riga
+
+def estraiMateria(voto):
+    """
+    questo metodo restituisce il campo materia dell'oggetto voto
+    :param voto: instanza della classe voto
+    :return: stringa rappreentante il voto
+    """ #metodo stand alone
+    return voto.materia
 
 def testVoto(): #in questo modo le variabili vengono distrutte alla fine del test, le varibaili sono localizzate e si creano solo se chiamo il metodo
     v1 = Voto("Trasfigurazione", 24, "2022-02-13", False)
