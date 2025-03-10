@@ -31,7 +31,7 @@ class Voto:
     data: str
     lode: bool
 
-    def __str__(self): # posso riusare i metodi definiti prima se voglio migliorare; la dataclass è molto utile perchè velocizza
+    def __str__(self): #posso riusare i metodi definiti prima se voglio migliorare; la dataclass è molto utile perchè velocizza
         if self.lode:
             return f"In {self.materia} hai preso {self.punteggio} e lode il {self.data}"
         else:
@@ -40,12 +40,12 @@ class Voto:
         #return(self.punteggio == other.punteggio and self.materia == other.materia and self.lode == other.lode)
     def copy(self): #crea una nuova instanza che ha gli stessi parametri dell'instanza di partenza
         return Voto(self.materia, self.punteggio, self.data, self.lode)
-    def __hash__(self):
+    def __hash__(self): #funzione che associa un numero univoco
         return hash((self.materia, self.punteggio, self.lode)) #
 
 
 class Libretto:
-    def __init__(self, proprietario, voti = []):
+    def __init__(self, proprietario, voti= []):
         self.proprietario = proprietario
         self.voti = voti
     def append(self, voto): #duck
@@ -56,7 +56,7 @@ class Libretto:
     def __str__(self):
         mystr = f"Libretto voti di {self.proprietario}"
         for v in self.voti:
-            mystr += f"{v}\n" # dunder str del voto, delegation del metodo __str__ della classe Voto
+            mystr += f"{v}\n" #dunder str del voto, delegation del metodo __str__ della classe Voto
         return mystr
     def __len__(self):
         return len(self.voti) #quanti elementi ha la lista voti, specializzo un comportamento
@@ -112,7 +112,7 @@ class Libretto:
 
     def hasConflitto(self, voto):
         """
-        Questo metodo controlla che il voto "voto" non rappresneta un conflitto con i voti già presenti nel libretto.
+        Questo metodo controlla che il voto "voto" non rappresenta un conflitto con i voti già presenti nel libretto.
         Consideriamo due voti in conflitto quando hanno lo stessi campo materia ma diverso (punteggio, lode).
         :param voto: instanza della classe Voto
         :return: True se voto è in conflitto, False altrimenti
@@ -141,7 +141,7 @@ class Libretto:
         se il voto è 30 rimane 30
         :return: nuovo Libretto
         """
-        nuovo = self.copy() #chiama il metodo copy
+        nuovo = self.copy() #chiama il metodo copy definito sopra
         #for v in self.voti:
             #nuovo.append(v.copy()) #indipendente dal vecchio libretto
         #modifica i voti in nuovo
@@ -183,7 +183,7 @@ class Libretto:
 
     def cancellaInferiori(self, punteggio):
         """
-        questo metodo agisce sul libretto corrente, eliminando tutti i voti inferiori al parametro punteggio
+        questo metodo agisce sul libretto corrente, eliminando tutti i voti inferiori al parametro "punteggio"
         :param punteggio: intero indicante il valore minimo
         :return:
         """
@@ -207,7 +207,7 @@ def estraiMateria(voto):
     """
     questo metodo restituisce il campo materia dell'oggetto voto
     :param voto: instanza della classe voto
-    :return: stringa rappreentante il voto
+    :return: stringa rappresentante il voto
     """ #metodo stand alone
     return voto.materia
 
