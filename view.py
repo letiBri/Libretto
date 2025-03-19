@@ -18,6 +18,7 @@ class View:
         self._controller = None #per avere tutte le propoerties nell'init
         self._page = page #variabili che vorrei nessuno toccasse
 
+
     def loadInterface(self):
         """
         In questo metodo definiamo e carichiamo tutti i controlli dell'interfaccia
@@ -53,6 +54,7 @@ class View:
 
     def setController(self, c):
         self._controller = c
+
 
     def _fillDDVoto(self):
         for i in range(18, 30):
