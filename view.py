@@ -24,14 +24,15 @@ class View:
         In questo metodo definiamo e carichiamo tutti i controlli dell'interfaccia
         :return:
         """
+        self._page.bgcolor = "white"
         self._titolo = ft.Text(value="Libretto voti", color="red", size=24)
         self._student = ft.Text(value=self._controller.getStudent(), color="brown")
         row1 = ft.Row(controls=[self._titolo], alignment=ft.MainAxisAlignment.CENTER)
         row2 = ft.Row(controls=[self._student], alignment=ft.MainAxisAlignment.END)
 
 
-        self._txtInNome = ft.TextField(label="Nome esame", hint_text="Inserisci il nome dell'esame", width=300)
-        self._ddVoto = ft.Dropdown(label="Voto", width=120)
+        self._txtInNome = ft.TextField(label="Nome esame", hint_text="Inserisci il nome dell'esame", width=300, color="black")
+        self._ddVoto = ft.Dropdown(label="Voto", width=120, color="black")
         self._fillDDVoto()
 
         self._dp = ft.DatePicker(first_date=datetime.datetime(2022, 1, 1),
@@ -57,6 +58,6 @@ class View:
 
 
     def _fillDDVoto(self):
-        for i in range(18, 30):
+        for i in range(18, 31):
             self._ddVoto.options.append(ft.dropdown.Option(str(i)))
         self._ddVoto.options.append(ft.dropdown.Option("30L"))

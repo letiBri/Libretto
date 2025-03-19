@@ -14,7 +14,7 @@ class Controller:
     def handleAggiungi(self, e):
         # raccoglie tutte le info per creare un nuovo voto
         # crea un oggetto Voto
-        # fa appedn sul Libretto
+        # fa append sul Libretto
         nome = self._view._txtInNome.value
         if nome == "":
             self._view._txtOut.controls.append(ft.Text("Attenzione, il campo nome non può essere vuoto"), color="red")
@@ -38,7 +38,7 @@ class Controller:
         self._view._page.update()
 
     def handleStampa(self, e):
-        self._view._txtOut.controls.append(ft.Text(str(self._model)))
+        self._view._txtOut.controls.append(ft.Text(str(self._model), color="black"))
         self._view._page.update()
 
     def getStudent(self):
@@ -53,3 +53,5 @@ class Controller:
         v2 = Voto("Babbanologia", 21, "2022-02-12", False)
         self._model.append(v1)
         self._model.append(v2)
+        self._model.append(Voto("Pozioni", 21, "2022-06-14", False))
+        self._model.append(Voto("Trasfigurazione", 21, "2022-06-14", False))
