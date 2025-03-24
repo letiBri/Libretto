@@ -1,5 +1,5 @@
 from scuola import Student
-from view import View
+from UI.view import View
 from voto.voto import Libretto, Voto
 import flet as ft
 

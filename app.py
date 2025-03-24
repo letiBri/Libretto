@@ -2,8 +2,8 @@
 
 import flet as ft
 
-from controller import Controller
-from view import View
+from UI.controller import Controller
+from UI.view import View
 
 def main(page: ft.Page):
     v = View(page) #diciamo alla view qual è la pagina che modifica #crea la view
