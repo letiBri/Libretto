@@ -1,19 +1,19 @@
-import mysql
+import mysql.connector
 
 
 class LibrettoDAO:
     def getAllVoti(self):
-        cnx = mysql.connector.Connection(
+        cnx = mysql.connector.connect(
             user="root",
-            password="rootroot",
+            password="root",
             host="127.0.0.1",
             database="libretto")
-        cursor = cnx.cursor(dictonary=True)
+        cursor = cnx.cursor(dictionary=True)
 
         query = """select * from voti"""
         rs = cursor.execute(query)
 
-        for row in rs:
+        for row in cursor:
             print(row)
         cnx.close()
 
