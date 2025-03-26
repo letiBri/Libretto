@@ -18,7 +18,7 @@
 from dataclasses import dataclass
 
 from scuola import Student, Person, Teacher, Casa, Scuola # importo tutte le classi create in un file a parte
-from voto.voto import Voto, Libretto #esegue tutto il file voto, quindi se ci sono istruzioni tipo print() dentro al file voto, non va bene
+from voto.modello import Voto, Libretto #esegue tutto il file voto, quindi se ci sono istruzioni tipo print() dentro al file voto, non va bene
 import flet #scarica la libreria da pip #istalla nella route del nostro sistema
 #import mysql #pip install mysql doppio modo per istallare librerie esterne
 #se istallo da pip lo scarico nel virtual enveriment
