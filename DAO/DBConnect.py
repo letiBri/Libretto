@@ -23,7 +23,7 @@ class DBConnect:
     '''
 
     def __init__(self):
-        RuntimeError("Non creare un'istanza di questa classe per favore!")
+        raise RuntimeError("Non creare un'istanza di questa classe per favore!")
 
     _myPool = None
     @classmethod
