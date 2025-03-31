@@ -8,8 +8,9 @@ class LibrettoDAO:
     #def __init__(self):
         #self.dbConnect = DBConnect()
 
-    def getAllVoti(self):
-        cnx = DBConnect.getConnection() # al posto di scrivere le info qui chiamo il metodo nel DBConnect che è un classmethod
+    @staticmethod #dice che il metodo vede solo i parametri che gli passiamo come argomenti e non vede i parametri dell'istanza
+    def getAllVoti():
+        cnx = DBConnect.getConnection() #al posto di scrivere le info qui chiamo il metodo nel DBConnect che è un classmethod
         cursor = cnx.cursor(dictionary=True)
 
         query = """select * from voti"""
@@ -29,8 +30,8 @@ class LibrettoDAO:
         cnx.close()
         return res
 
-
-    def addVoto(self, voto):
+    @staticmethod
+    def addVoto(voto):
         cnx = DBConnect.getConnection()
         cursor = cnx.cursor(dictionary=True)
         query = ("insert into voti (materia, punteggio, data, lode) "
@@ -40,8 +41,8 @@ class LibrettoDAO:
         cnx.close()
         return
 
-
-    def hasVoto(self, voto: Voto):
+    @staticmethod
+    def hasVoto(voto: Voto):
         cnx = DBConnect.getConnection()
         cursor = cnx.cursor()
         query = """select * from voti v where v.materia = %s """ #provo la query su dbeaver quando sono più complicate
